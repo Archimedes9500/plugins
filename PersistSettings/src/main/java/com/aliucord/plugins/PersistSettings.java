@@ -72,7 +72,8 @@ public class PersistSettings extends Plugin {
     @Nullable
     private Object getObject(de.robv.android.xposed.XC_MethodHook.MethodHookParam callFrame) {
         var storeAuth = (StoreAuthentication) callFrame.thisObject;
-        String str = ((AuthState) callFrame.args[0]).getToken();
+        var authState = (AuthState) callFrame.args[0];
+		String str = authState != null ? authState.getToken() : null;
 
 		storeAuth.setAuthed(str);
 
