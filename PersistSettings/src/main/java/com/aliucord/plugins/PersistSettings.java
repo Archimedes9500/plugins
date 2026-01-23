@@ -59,7 +59,7 @@ public class PersistSettings extends Plugin {
     public void start(Context context) throws NoSuchMethodException, NoSuchFieldException {
 
 		try {patcher.patch(StoreAuthentication.class.getDeclaredMethod("handleAuthState$app_productionGoogleRelease", AuthState.class), new InsteadHook(callFrame -> {
-            return getObject(authState, callFrame);
+            return getObject(callFrame);
         })); } catch (NoSuchMethodException e) {};
 
         patcher.patch(StoreEmoji.class.getDeclaredMethod("handlePreLogout"), InsteadHook.DO_NOTHING);
