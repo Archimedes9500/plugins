@@ -74,7 +74,7 @@ public class PersistSettings extends Plugin {
         var storeAuth = (StoreAuthentication) callFrame.thisObject;
         String str = ((AuthState) callFrame.args[0]).getToken();
 
-		callFrame.thisObject.setAuthed(str);
+		storeAuth.setAuthed(str);
 
         storeAuth.getPrefs().edit().putString("STORE_AUTHED_TOKEN", str).apply();
         if (str == null && !settings.getBool("persistSetting", true)) {
