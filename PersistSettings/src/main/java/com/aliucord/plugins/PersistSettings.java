@@ -19,8 +19,7 @@ import com.discord.stores.StoreNux;
 import com.discord.stores.StoreStickers;
 import com.discord.utilities.persister.Persister;
 import com.discord.views.CheckedSetting;
-
-import java.lang.reflect.Field;
+import com.discord.models.authentication.AuthState;
 
 import d0.z.d.m;
 
@@ -58,17 +57,10 @@ public class PersistSettings extends Plugin {
     @Override
     // Called when your plugin is started. This is the place to register command, add patches, etc
     public void start(Context context) throws NoSuchMethodException, NoSuchFieldException {
-        Field authToken = StoreAuthentication.class.getDeclaredField("authToken");
-        authToken.setAccessible(true);
 
-        try {
-        patcher.patch(StoreAuthentication.class.getDeclaredMethod("handleAuthToken$app_productionCanaryRelease", String.class), new InsteadHook(callFrame -> {
-            return getObject(authToken, callFrame);
-        })); } catch (NoSuchMethodException e) {
-            patcher.patch(StoreAuthentication.class.getDeclaredMethod("handleAuthToken$app_productionBetaRelease", String.class), new InsteadHook(callFrame -> {
-                return getObject(authToken, callFrame);
-            }));
-        }
+		try {patcher.patch(StoreAuthentication.class.getDeclaredMethod("handleAuthState$app_productionGoogleRelease", AuthState.class), new InsteadHook(callFrame -> {
+            return getObject(authState, callFrame);
+        })); } catch (NoSuchMethodException e) {};
 
         patcher.patch(StoreEmoji.class.getDeclaredMethod("handlePreLogout"), InsteadHook.DO_NOTHING);
 
@@ -78,15 +70,11 @@ public class PersistSettings extends Plugin {
     }
 
     @Nullable
-    private Object getObject(Field authToken, de.robv.android.xposed.XC_MethodHook.MethodHookParam callFrame) {
+    private Object getObject(de.robv.android.xposed.XC_MethodHook.MethodHookParam callFrame) {
         var storeAuth = (StoreAuthentication) callFrame.thisObject;
-        var str = (String) callFrame.args[0];
+        String str = ((AuthState) callFrame.args[0]).getToken();
 
-        try {
-            authToken.set(callFrame.thisObject, str);
-        } catch (IllegalAccessException e) {
-            logger.error(e);
-        }
+		callFrame.thisObject.setAuthed(str);
 
         storeAuth.getPrefs().edit().putString("STORE_AUTHED_TOKEN", str).apply();
         if (str == null && !settings.getBool("persistSetting", true)) {
