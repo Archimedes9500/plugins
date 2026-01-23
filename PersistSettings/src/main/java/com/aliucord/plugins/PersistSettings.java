@@ -19,7 +19,7 @@ import com.discord.stores.StoreNux;
 import com.discord.stores.StoreStickers;
 import com.discord.utilities.persister.Persister;
 import com.discord.views.CheckedSetting;
-import com.discord.models.authentication.AuthState;
+import com.discord.stores.authentication.AuthState;
 import com.discord.models.authentication.AuthStateCache;
 
 import java.lang.reflect.Field;
@@ -83,7 +83,7 @@ public class PersistSettings extends Plugin {
             }
 
             if (authState == null&& !settings.getBool("persistSetting", true)) {
-                Persister.INSTANCE.reset();
+                Persister.Companion.reset();
                 SharedPreferences.Editor editorEdit = getPrefs().edit();
                 m.checkNotNullExpressionValue(editorEdit, "editor");
                 editorEdit.clear();
