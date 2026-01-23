@@ -78,7 +78,7 @@ public class PersistSettings extends Plugin {
                 fAuthState.set(storeAuth, authState);
                 var authStateCache = (AuthStateCache) fAuthStateCache.get(storeAuth);
                 mCacheAuthState.invoke(authStateCache, authState);
-            } catch (IllegalAccessException e) {
+            } catch (Exception e) {
                 logger.error(e);
             }
 
