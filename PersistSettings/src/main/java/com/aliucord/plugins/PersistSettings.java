@@ -84,7 +84,7 @@ public class PersistSettings extends Plugin {
 
             if (authState == null&& !settings.getBool("persistSetting", true)) {
                 Persister.Companion.reset();
-                SharedPreferences.Editor editorEdit = getPrefs().edit();
+                SharedPreferences.Editor editorEdit = storeAuth.getPrefs().edit();
                 m.checkNotNullExpressionValue(editorEdit, "editor");
                 editorEdit.clear();
                 editorEdit.apply();
