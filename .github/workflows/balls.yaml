@@ -1,0 +1,15 @@
+name: Balls
+on: 
+  workflow_dispatch:
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v5
+      - name: run
+        run: |
+         git config --local user.email "actions@github.com"
+         git config --local user.name "GitHub Actions"
+         git pull "https://gitea.com/Archimedes5000/plugins/ main
+         git push PersistSettings-fix
