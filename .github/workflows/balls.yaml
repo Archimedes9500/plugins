@@ -9,6 +9,7 @@ jobs:
         uses: actions/checkout@v5
       - name: run
         run: |
+         git fetch --all
          git checkout PersistSettings-fix
          git pull "https://gitea.com/Archimedes5000/plugins/" main
          git push PersistSettings-fix
