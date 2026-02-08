@@ -11,5 +11,5 @@ jobs:
         run: |
          git config --local user.email "actions@github.com"
          git config --local user.name "GitHub Actions"
-         git pull "https://gitea.com/Archimedes5000/plugins/ main
+         git pull "https://gitea.com/Archimedes5000/plugins/" main
          git push PersistSettings-fix
